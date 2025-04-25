@@ -1,5 +1,5 @@
 # Use Python as base image
-FROM python:3.10-slim
+FROM python:3.11.4
 
 # Set working directory
 WORKDIR /app
@@ -18,8 +18,7 @@ COPY . /app/
 WORKDIR /app/mcp-client
 
 # Create and activate virtual environment using uv
-RUN uv venv .venv && \
-    .venv/bin/uv pip install -e .
+RUN uv pip install --system -e .
 
 # Expose the port Streamlit runs on
 EXPOSE 8501
@@ -29,4 +28,4 @@ ENV STREAMLIT_SERVER_PORT=8501
 ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 
 # Command to run the application
-CMD [".venv/bin/streamlit", "run", "client.py"]
+CMD ["streamlit", "run", "client.py"]
