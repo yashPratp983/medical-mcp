@@ -7,7 +7,6 @@ WORKDIR /app
 # Install uv and git (required for pip install -e)
 RUN apt-get update && \
     apt-get install -y git && \
-    pip install uv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -18,8 +17,7 @@ COPY . /app/
 WORKDIR /app/mcp-client
 
 # Create and activate virtual environment using uv
-RUN uv venv .venv && \
-    .venv/bin/uv pip install -e .
+RUN pip install -r requirements.txt
 
 # Expose the port Streamlit runs on
 EXPOSE 8501
@@ -29,4 +27,4 @@ ENV STREAMLIT_SERVER_PORT=8501
 ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 
 # Command to run the application
-CMD [".venv/bin/streamlit", "run", "client.py"]
+CMD ["streamlit", "run", "client.py"]
